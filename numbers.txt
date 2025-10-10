@@ -1,0 +1,10 @@
+# Sample numbers file for testing addition.sh
+# Lines starting with # are comments and will be ignored
+10
+20.5
+15
+7.25
+# Another comment
+3.14
+2.86
+# End of numbers
