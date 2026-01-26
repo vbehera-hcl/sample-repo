@@ -3,7 +3,7 @@
 # Shell script for addition of numbers
 # Demonstrates various ways to add numbers in bash
 
-# Function to add two numbers
+# Function to add two numbersdddddd
 add_two_numbers() {
     local num1=$1
     local num2=$2
