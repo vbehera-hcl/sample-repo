@@ -8,6 +8,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -593,89 +596,6 @@
         </div>
     </footer>
 
-    <script type="module">
-    // Firebase configuration
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    
-    const firebaseConfig = {
-        projectId: "devops-mastery-site-7e429"
-    };
-    
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    
-    // EmailJS configuration - UPDATE THESE VALUES
-    const EMAILJS_PUBLIC_KEY = "YOUR_PUBLIC_KEY";      // Get from EmailJS Account
-    const EMAILJS_SERVICE_ID = "YOUR_SERVICE_ID";      // Get from EmailJS Email Services
-    const EMAILJS_TEMPLATE_ID = "YOUR_TEMPLATE_ID";    // Get from EmailJS Email Templates
-    
-    // Initialize EmailJS
-    if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-        emailjs.init(EMAILJS_PUBLIC_KEY);
-    }
-    
-    // Form submission handler
-    const enrollForm = document.getElementById('enrollForm');
-    
-    if (enrollForm) {
-        enrollForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Validation
-            if (!data.name || !data.email || !data.plan) {
-                showNotification('Please fill in all required fields.', 'error');
-                return;
-            }
-            
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(data.email)) {
-                showNotification('Please enter a valid email address.', 'error');
-                return;
-            }
-            
-            const submitBtn = this.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
-            submitBtn.disabled = true;
-            
-            try {
-                // Save to Firestore
-                await addDoc(collection(db, "enrollments"), {
-                    name: data.name,
-                    email: data.email,
-                    phone: data.phone || '',
-                    plan: data.plan,
-                    timestamp: serverTimestamp(),
-                    source: window.location.href
-                });
-                
-                // Send email notification (if EmailJS is configured)
-                if (typeof emailjs !== 'undefined' && EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY") {
-                    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
-                        name: data.name,
-                        email: data.email,
-                        phone: data.phone || 'Not provided',
-                        plan: data.plan,
-                        time: new Date().toLocaleString()
-                    });
-                }
-                
-                showNotification('Thank you for enrolling! We\'ll contact you shortly.', 'success');
-                this.reset();
-            } catch (error) {
-                console.error('Error:', error);
-                showNotification('Something went wrong. Please try again.', 'error');
-            }
-            
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        });
-    }
-</script>
 <script src="script.js"></script>
 </body>
 </html>

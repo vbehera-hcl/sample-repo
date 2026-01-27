@@ -43,42 +43,89 @@ if (mobileMenuBtn) {
     });
 }
 
+// ===== Firebase & EmailJS Configuration =====
+const firebaseConfig = {
+    projectId: "devops-mastery-site-7e429"
+};
+
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// EmailJS configuration
+const EMAILJS_PUBLIC_KEY = "aOpH59p862vi6gbWu";
+const EMAILJS_SERVICE_ID = "devops";
+const EMAILJS_TEMPLATE_ID = "devops_mail";
+
+// Initialize EmailJS
+emailjs.init(EMAILJS_PUBLIC_KEY);
+console.log('Firebase and EmailJS initialized');
+
 // ===== Form Submission Handler =====
 const enrollForm = document.getElementById('enrollForm');
 
 if (enrollForm) {
-    enrollForm.addEventListener('submit', function(e) {
+    enrollForm.addEventListener('submit', async function(e) {
         e.preventDefault();
+        console.log('Form submitted');
         
-        // Get form data
         const formData = new FormData(this);
         const data = Object.fromEntries(formData.entries());
         
-        // Simple validation
+        // Validation
         if (!data.name || !data.email || !data.plan) {
             showNotification('Please fill in all required fields.', 'error');
             return;
         }
         
-        // Email validation
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(data.email)) {
             showNotification('Please enter a valid email address.', 'error');
             return;
         }
         
-        // Simulate form submission
         const submitBtn = this.querySelector('button[type="submit"]');
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
         submitBtn.disabled = true;
         
-        setTimeout(() => {
-            showNotification('Thank you for enrolling! We\'ll contact you shortly.', 'success');
+        try {
+            // Save to Firestore
+            console.log('Saving to Firestore...');
+            await db.collection("enrollments").add({
+                name: data.name,
+                email: data.email,
+                phone: data.phone || '',
+                plan: data.plan,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                source: window.location.href
+            });
+            console.log('Saved to Firestore successfully');
+            
+            // Send email notification
+            try {
+                console.log('Sending email via EmailJS...');
+                const emailResult = await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+                    name: data.name,
+                    email: data.email,
+                    phone: data.phone || 'Not provided',
+                    plan: data.plan,
+                    time: new Date().toLocaleString()
+                });
+                console.log('Email sent successfully:', emailResult);
+            } catch (emailError) {
+                console.error('EmailJS Error:', emailError);
+            }
+            
+            showNotification('Thank you for enrolling! We will contact you shortly.', 'success');
             this.reset();
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }, 1500);
+        } catch (error) {
+            console.error('Firestore Error:', error);
+            showNotification('Something went wrong. Please try again.', 'error');
+        }
+        
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
     });
 }
 
