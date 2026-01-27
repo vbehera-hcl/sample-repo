@@ -1,0 +1,69 @@
+# AWS CLI Commands to Create Nautilus EC2 Web Server with Nginx
+# ================================================================
+
+# Step 1: Create a Security Group that allows HTTP traffic on port 80
+aws ec2 create-security-group \
+    --group-name nautilus-web-sg \
+    --description "Security group for Nautilus web server allowing HTTP traffic"
+
+# Step 2: Add inbound rule to allow HTTP traffic on port 80 from anywhere
+aws ec2 authorize-security-group-ingress \
+    --group-name nautilus-web-sg \
+    --protocol tcp \
+    --port 80 \
+    --cidr 0.0.0.0/0
+
+# Step 3: Create the EC2 instance with User Data script to install and start Nginx
+# Note: Replace ami-0ubuntu-id with an actual Ubuntu AMI ID for your region
+# Common Ubuntu AMIs:
+#   - us-east-1: ami-0c7217cdde317cfec (Ubuntu 22.04 LTS)
+#   - us-west-2: ami-03f65b8614a860c29 (Ubuntu 22.04 LTS)
+
+aws ec2 run-instances \
+    --image-id ami-0c7217cdde317cfec \
+    --instance-type t2.micro \
+    --security-groups nautilus-web-sg \
+    --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=nautilus-ec2}]' \
+    --user-data '#!/bin/bash
+apt-get update -y
+apt-get install -y nginx
+systemctl start nginx
+systemctl enable nginx' \
+    --count 1
+
+# ================================================================
+# ALTERNATIVE: Single Combined Command (Base64 encoded user data)
+# ================================================================
+
+# If you prefer to use base64 encoded user data, use this command:
+# First, create the user data script and encode it:
+# echo -e '#!/bin/bash\napt-get update -y\napt-get install -y nginx\nsystemctl start nginx\nsystemctl enable nginx' | base64
+
+# Then run:
+# aws ec2 run-instances \
+#     --image-id ami-0c7217cdde317cfec \
+#     --instance-type t2.micro \
+#     --security-groups nautilus-web-sg \
+#     --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=nautilus-ec2}]' \
+#     --user-data IyEvYmluL2Jhc2gKYXB0LWdldCB1cGRhdGUgLXkKYXB0LWdldCBpbnN0YWxsIC15IG5naW54CnN5c3RlbWN0bCBzdGFydCBuZ2lueApzeXN0ZW1jdGwgZW5hYmxlIG5naW54Cg==
+
+# ================================================================
+# NOTES:
+# ================================================================
+# 1. Make sure you have AWS CLI configured with proper credentials
+#    Run: aws configure
+#
+# 2. Replace the AMI ID with the appropriate Ubuntu AMI for your region
+#    To find Ubuntu AMIs in your region, run:
+#    aws ec2 describe-images --owners 099720109477 --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" --query 'Images[*].[ImageId,Name]' --output table
+#
+# 3. If using a VPC (recommended), you may need to:
+#    - Create the security group in a specific VPC using --vpc-id
+#    - Specify a subnet using --subnet-id in run-instances
+#    - Use --security-group-ids instead of --security-groups
+#
+# 4. To verify the instance is running:
+#    aws ec2 describe-instances --filters "Name=tag:Name,Values=nautilus-ec2" --query 'Reservations[*].Instances[*].[InstanceId,State.Name,PublicIpAddress]' --output table
+#
+# 5. After the instance is running, access Nginx by visiting:
+#    http://<public-ip-address>
