@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevOps Mastery Program | Learn CI/CD, Cloud & Automation</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="container">
+            <a href="#" class="logo">
+                <i class="fas fa-infinity"></i>
+                <span>DevOps<strong>Mastery</strong></span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="#curriculum">Curriculum</a></li>
+                <li><a href="#technologies">Technologies</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#testimonials">Testimonials</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+            </ul>
+            <a href="#enroll" class="btn btn-primary">Enroll Now</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content">
+                <span class="hero-badge">🚀 New Batch Starting Soon</span>
+                <h1>Master DevOps & <span class="gradient-text">Cloud Engineering</span></h1>
+                <p class="hero-description">
+                    Transform your career with hands-on training in CI/CD, Kubernetes, 
+                    AWS, Terraform, and more. Join 10,000+ engineers who've accelerated their careers.
+                </p>
+                <div class="hero-cta">
+                    <a href="#enroll" class="btn btn-primary btn-large">
+                        Start Your Journey
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+                    <a href="#curriculum" class="btn btn-secondary btn-large">
+                        View Curriculum
+                    </a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat">
+                        <span class="stat-number">10K+</span>
+                        <span class="stat-label">Students Enrolled</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">95%</span>
+                        <span class="stat-label">Placement Rate</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">4.9</span>
+                        <span class="stat-label">Course Rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="pipeline-animation">
+                    <div class="pipeline-node" style="--delay: 0s">
+                        <i class="fas fa-code"></i>
+                        <span>Code</span>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node" style="--delay: 0.2s">
+                        <i class="fas fa-cogs"></i>
+                        <span>Build</span>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node" style="--delay: 0.4s">
+                        <i class="fas fa-flask"></i>
+                        <span>Test</span>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node" style="--delay: 0.6s">
+                        <i class="fas fa-rocket"></i>
+                        <span>Deploy</span>
+                    </div>
+                    <div class="pipeline-arrow"></div>
+                    <div class="pipeline-node" style="--delay: 0.8s">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Monitor</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technologies Section -->
+    <section class="technologies" id="technologies">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Tools & Technologies</span>
+                <h2>Industry-Leading Tech Stack</h2>
+                <p>Learn the tools used by top companies worldwide</p>
+            </div>
+            <div class="tech-grid">
+                <div class="tech-card">
+                    <div class="tech-icon docker">
+                        <i class="fab fa-docker"></i>
+                    </div>
+                    <h4>Docker</h4>
+                    <p>Container technology</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon kubernetes">
+                        <i class="fas fa-dharmachakra"></i>
+                    </div>
+                    <h4>Kubernetes</h4>
+                    <p>Container orchestration</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon aws">
+                        <i class="fab fa-aws"></i>
+                    </div>
+                    <h4>AWS</h4>
+                    <p>Cloud platform</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon terraform">
+                        <i class="fas fa-cubes"></i>
+                    </div>
+                    <h4>Terraform</h4>
+                    <p>Infrastructure as Code</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon jenkins">
+                        <i class="fab fa-jenkins"></i>
+                    </div>
+                    <h4>Jenkins</h4>
+                    <p>CI/CD automation</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon git">
+                        <i class="fab fa-git-alt"></i>
+                    </div>
+                    <h4>Git</h4>
+                    <p>Version control</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon ansible">
+                        <i class="fas fa-terminal"></i>
+                    </div>
+                    <h4>Ansible</h4>
+                    <p>Configuration management</p>
+                </div>
+                <div class="tech-card">
+                    <div class="tech-icon prometheus">
+                        <i class="fas fa-fire"></i>
+                    </div>
+                    <h4>Prometheus</h4>
+                    <p>Monitoring & alerting</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Curriculum Section -->
+    <section class="curriculum" id="curriculum">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Learning Path</span>
+                <h2>Comprehensive Curriculum</h2>
+                <p>A structured path from fundamentals to advanced DevOps practices</p>
+            </div>
+            <div class="curriculum-timeline">
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>01</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Linux & Shell Scripting</h3>
+                        <p>Master the command line, bash scripting, system administration, and automation fundamentals.</p>
+                        <ul class="curriculum-topics">
+                            <li>Linux system administration</li>
+                            <li>Bash scripting & automation</li>
+                            <li>Networking fundamentals</li>
+                            <li>Security best practices</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 3 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>02</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Version Control & Git</h3>
+                        <p>Deep dive into Git workflows, branching strategies, and collaborative development practices.</p>
+                        <ul class="curriculum-topics">
+                            <li>Git fundamentals & advanced commands</li>
+                            <li>Branching strategies (GitFlow, trunk-based)</li>
+                            <li>Pull requests & code reviews</li>
+                            <li>GitHub Actions & GitLab CI</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 2 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>03</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Containerization with Docker</h3>
+                        <p>Learn to build, ship, and run applications in containers with Docker.</p>
+                        <ul class="curriculum-topics">
+                            <li>Docker images & containers</li>
+                            <li>Dockerfile best practices</li>
+                            <li>Docker Compose</li>
+                            <li>Container registries</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 3 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>04</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Kubernetes Orchestration</h3>
+                        <p>Master container orchestration with Kubernetes for scalable deployments.</p>
+                        <ul class="curriculum-topics">
+                            <li>K8s architecture & components</li>
+                            <li>Deployments, Services, Ingress</li>
+                            <li>Helm charts & package management</li>
+                            <li>Cluster management & scaling</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 4 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>05</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>CI/CD Pipelines</h3>
+                        <p>Build end-to-end continuous integration and deployment pipelines.</p>
+                        <ul class="curriculum-topics">
+                            <li>Jenkins pipelines & Groovy</li>
+                            <li>GitHub Actions workflows</li>
+                            <li>ArgoCD & GitOps</li>
+                            <li>Automated testing strategies</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 3 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>06</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Cloud & Infrastructure as Code</h3>
+                        <p>Provision and manage cloud infrastructure with Terraform and AWS.</p>
+                        <ul class="curriculum-topics">
+                            <li>AWS core services (EC2, S3, VPC, IAM)</li>
+                            <li>Terraform modules & state management</li>
+                            <li>Infrastructure automation</li>
+                            <li>Cost optimization</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 4 Weeks</span>
+                    </div>
+                </div>
+                <div class="curriculum-item">
+                    <div class="curriculum-marker">
+                        <span>07</span>
+                    </div>
+                    <div class="curriculum-content">
+                        <h3>Monitoring & Observability</h3>
+                        <p>Implement comprehensive monitoring, logging, and observability solutions.</p>
+                        <ul class="curriculum-topics">
+                            <li>Prometheus & Grafana</li>
+                            <li>ELK Stack (Elasticsearch, Logstash, Kibana)</li>
+                            <li>Application performance monitoring</li>
+                            <li>Alerting & incident response</li>
+                        </ul>
+                        <span class="curriculum-duration"><i class="fas fa-clock"></i> 3 Weeks</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Why Choose Us</span>
+                <h2>Learn by Doing</h2>
+                <p>Our hands-on approach ensures you're job-ready from day one</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>Hands-On Labs</h3>
+                    <p>Practice on real cloud environments with 100+ hands-on labs and projects.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Expert Instructors</h3>
+                    <p>Learn from industry professionals with 10+ years of DevOps experience.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-project-diagram"></i>
+                    </div>
+                    <h3>Real-World Projects</h3>
+                    <p>Build a portfolio with 5 production-grade projects using modern tools.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3>Certification Prep</h3>
+                    <p>Get prepared for AWS, CKA, and other top DevOps certifications.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>24/7 Support</h3>
+                    <p>Get help anytime with our dedicated support team and community.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Career Services</h3>
+                    <p>Resume review, interview prep, and job placement assistance included.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Success Stories</span>
+                <h2>What Our Students Say</h2>
+                <p>Join thousands of successful DevOps engineers</p>
+            </div>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"This program transformed my career. I went from a junior developer to a DevOps engineer at a Fortune 500 company within 6 months!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">SK</div>
+                        <div class="author-info">
+                            <h4>Sarah Kim</h4>
+                            <span>DevOps Engineer at Microsoft</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"The hands-on labs are incredible. I learned more in 3 months here than I did in 2 years of self-study. Highly recommended!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JP</div>
+                        <div class="author-info">
+                            <h4>James Patterson</h4>
+                            <span>SRE at Google</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <div class="testimonial-content">
+                        <div class="stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>"The career support is amazing. They helped me prepare for interviews and negotiate a 40% salary increase!"</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div class="author-info">
+                            <h4>Maria Rodriguez</h4>
+                            <span>Platform Engineer at Netflix</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Investment</span>
+                <h2>Choose Your Plan</h2>
+                <p>Flexible options to fit your learning style</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Self-Paced</h3>
+                        <p>Learn at your own speed</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">$</span>
+                        <span class="price">499</span>
+                        <span class="period">one-time</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full curriculum access</li>
+                        <li><i class="fas fa-check"></i> 100+ hands-on labs</li>
+                        <li><i class="fas fa-check"></i> Community access</li>
+                        <li><i class="fas fa-check"></i> 1 year access</li>
+                        <li><i class="fas fa-times"></i> Live sessions</li>
+                        <li><i class="fas fa-times"></i> 1-on-1 mentorship</li>
+                        <li><i class="fas fa-times"></i> Career services</li>
+                    </ul>
+                    <a href="#enroll" class="btn btn-secondary btn-block">Get Started</a>
+                </div>
+                <div class="pricing-card featured">
+                    <div class="pricing-badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3>Pro</h3>
+                        <p>Guided learning experience</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">$</span>
+                        <span class="price">999</span>
+                        <span class="period">one-time</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full curriculum access</li>
+                        <li><i class="fas fa-check"></i> 100+ hands-on labs</li>
+                        <li><i class="fas fa-check"></i> Community access</li>
+                        <li><i class="fas fa-check"></i> Lifetime access</li>
+                        <li><i class="fas fa-check"></i> Weekly live sessions</li>
+                        <li><i class="fas fa-check"></i> Group mentorship</li>
+                        <li><i class="fas fa-times"></i> Career services</li>
+                    </ul>
+                    <a href="#enroll" class="btn btn-primary btn-block">Get Started</a>
+                </div>
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3>Enterprise</h3>
+                        <p>Full career transformation</p>
+                    </div>
+                    <div class="pricing-amount">
+                        <span class="currency">$</span>
+                        <span class="price">1,999</span>
+                        <span class="period">one-time</span>
+                    </div>
+                    <ul class="pricing-features">
+                        <li><i class="fas fa-check"></i> Full curriculum access</li>
+                        <li><i class="fas fa-check"></i> 100+ hands-on labs</li>
+                        <li><i class="fas fa-check"></i> Community access</li>
+                        <li><i class="fas fa-check"></i> Lifetime access</li>
+                        <li><i class="fas fa-check"></i> Daily live sessions</li>
+                        <li><i class="fas fa-check"></i> 1-on-1 mentorship</li>
+                        <li><i class="fas fa-check"></i> Full career services</li>
+                    </ul>
+                    <a href="#enroll" class="btn btn-secondary btn-block">Get Started</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Enrollment Section -->
+    <section class="enroll" id="enroll">
+        <div class="container">
+            <div class="enroll-content">
+                <div class="enroll-info">
+                    <h2>Ready to Start Your DevOps Journey?</h2>
+                    <p>Join our next cohort and transform your career in just 22 weeks. Limited spots available!</p>
+                    <ul class="enroll-benefits">
+                        <li><i class="fas fa-check-circle"></i> No prior experience required</li>
+                        <li><i class="fas fa-check-circle"></i> Flexible payment options</li>
+                        <li><i class="fas fa-check-circle"></i> 30-day money-back guarantee</li>
+                        <li><i class="fas fa-check-circle"></i> Start immediately after enrollment</li>
+                    </ul>
+                </div>
+                <div class="enroll-form-container">
+                    <form class="enroll-form" id="enrollForm">
+                        <h3>Enroll Now</h3>
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" placeholder="Full Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" placeholder="Email Address" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="tel" id="phone" name="phone" placeholder="Phone Number">
+                        </div>
+                        <div class="form-group">
+                            <select id="plan" name="plan" required>
+                                <option value="">Select a Plan</option>
+                                <option value="self-paced">Self-Paced - $499</option>
+                                <option value="pro">Pro - $999</option>
+                                <option value="enterprise">Enterprise - $1,999</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block btn-large">
+                            Enroll Now
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                        <p class="form-note">By enrolling, you agree to our Terms of Service and Privacy Policy.</p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="#" class="logo">
+                        <i class="fas fa-infinity"></i>
+                        <span>DevOps<strong>Mastery</strong></span>
+                    </a>
+                    <p>Empowering the next generation of DevOps engineers with practical, industry-relevant training.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                        <a href="#"><i class="fab fa-github"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <h4>Program</h4>
+                    <ul>
+                        <li><a href="#curriculum">Curriculum</a></li>
+                        <li><a href="#technologies">Technologies</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Free Tutorials</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Events</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Partners</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 DevOpsMastery. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Service</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
