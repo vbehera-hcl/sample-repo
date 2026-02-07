@@ -1,0 +1,379 @@
+{
+  "name": "Voice AI Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "voice-ai-agent",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Voice Input Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300],
+      "webhookId": "voice-ai-webhook"
+    },
+    {
+      "parameters": {
+        "operation": "transcribe",
+        "binaryPropertyName": "audio",
+        "options": {
+          "language": "en",
+          "temperature": 0
+        }
+      },
+      "id": "speech-to-text",
+      "name": "Speech to Text (Whisper)",
+      "type": "@n8n/n8n-nodes-langchain.openAiAudio",
+      "typeVersion": 1,
+      "position": [460, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "options": {
+          "systemMessage": "You are a helpful Voice AI Assistant. You provide clear, concise, and conversational responses suitable for voice output. Keep responses under 150 words for optimal voice delivery. Be friendly, professional, and helpful.\n\nKey guidelines:\n- Respond naturally as if speaking\n- Avoid using markdown, bullet points, or special formatting\n- Use simple sentence structures\n- Be concise but complete\n- If you don't know something, say so politely"
+        }
+      },
+      "id": "ai-agent",
+      "name": "AI Agent (GPT-4)",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.7,
+      "position": [680, 300]
+    },
+    {
+      "parameters": {
+        "model": "gpt-4o",
+        "options": {
+          "temperature": 0.7,
+          "maxTokens": 500
+        }
+      },
+      "id": "openai-chat-model",
+      "name": "OpenAI Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1,
+      "position": [680, 500],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $('Voice Input Webhook').item.json.headers['x-session-id'] ?? 'default-session' }}"
+      },
+      "id": "memory-buffer",
+      "name": "Conversation Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [860, 500]
+    },
+    {
+      "parameters": {
+        "operation": "generate",
+        "input": "={{ $json.output }}",
+        "voice": "alloy",
+        "options": {
+          "responseFormat": "mp3"
+        }
+      },
+      "id": "text-to-speech",
+      "name": "Text to Speech (TTS)",
+      "type": "@n8n/n8n-nodes-langchain.openAiAudio",
+      "typeVersion": 1,
+      "position": [900, 300],
+      "credentials": {
+        "openAiApi": {
+          "id": "openai-credentials",
+          "name": "OpenAI API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "binary",
+        "responseBinaryPropertyName": "data",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "audio/mpeg"
+              },
+              {
+                "name": "X-Transcription",
+                "value": "={{ $('Speech to Text (Whisper)').item.json.text }}"
+              },
+              {
+                "name": "X-AI-Response",
+                "value": "={{ $('AI Agent (GPT-4)').item.json.output }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "response-node",
+      "name": "Send Voice Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1120, 300]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "condition-audio-check",
+              "leftValue": "={{ $binary.audio }}",
+              "rightValue": "",
+              "operator": {
+                "type": "object",
+                "operation": "exists"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "audio-validator",
+      "name": "Validate Audio Input",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.1,
+      "position": [340, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ JSON.stringify({ error: 'No audio file provided', message: 'Please send an audio file in the request body with field name \"audio\"', supported_formats: ['mp3', 'wav', 'webm', 'm4a', 'ogg'] }) }}",
+        "options": {
+          "responseCode": 400,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              }
+            ]
+          }
+        }
+      },
+      "id": "error-response",
+      "name": "Error Response",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [500, 480]
+    },
+    {
+      "parameters": {
+        "name": "get_current_time",
+        "description": "Get the current date and time. Useful when user asks about current time, date, or scheduling.",
+        "code": "const now = new Date();\nreturn {\n  datetime: now.toISOString(),\n  date: now.toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }),\n  time: now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true }),\n  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone\n};"
+      },
+      "id": "tool-time",
+      "name": "Get Current Time Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [680, 660]
+    },
+    {
+      "parameters": {
+        "name": "web_search",
+        "description": "Search the web for current information. Use when user asks about recent events, news, or information you don't know.",
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({ api_key: $credentials.tavilyApi?.apiKey, query: $fromAI('query', 'The search query'), search_depth: 'basic', max_results: 3 }) }}",
+        "placeholderDefinitions": {
+          "values": [
+            {
+              "name": "query",
+              "description": "The search query to look up"
+            }
+          ]
+        }
+      },
+      "id": "tool-search",
+      "name": "Web Search Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolHttpRequest",
+      "typeVersion": 1.1,
+      "position": [780, 660],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "tavily-credentials",
+          "name": "Tavily API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "calculator",
+        "description": "Perform mathematical calculations. Use when user asks to calculate, compute, or do math operations.",
+        "code": "const expression = $fromAI('expression', 'Mathematical expression to evaluate');\ntry {\n  // Safe evaluation of mathematical expressions\n  const result = Function('\"use strict\"; return (' + expression + ')')();\n  return { expression, result, formatted: `${expression} = ${result}` };\n} catch (error) {\n  return { error: 'Invalid mathematical expression', expression };\n}"
+      },
+      "id": "tool-calculator",
+      "name": "Calculator Tool",
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [880, 660]
+    }
+  ],
+  "connections": {
+    "Voice Input Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Audio Input",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Audio Input": {
+      "main": [
+        [
+          {
+            "node": "Speech to Text (Whisper)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Error Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Speech to Text (Whisper)": {
+      "main": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent (GPT-4)": {
+      "main": [
+        [
+          {
+            "node": "Text to Speech (TTS)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Text to Speech (TTS)": {
+      "main": [
+        [
+          {
+            "node": "Send Voice Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Time Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Search Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent (GPT-4)",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "name": "AI Agent",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+      "name": "Voice",
+      "createdAt": "2024-01-01T00:00:00.000Z",
+      "updatedAt": "2024-01-01T00:00:00.000Z"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-01-01T00:00:00.000Z",
+  "versionId": "voice-ai-agent-v1"
+}
